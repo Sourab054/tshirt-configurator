@@ -15,7 +15,7 @@ const Customizer = () => {
 
   // const [prompt, setPrompt] = useState("");
   // const [generatingImg, setGeneratingImg] = useState(false);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeEditorTab, setActiveEditorTab] = useState("");
   const [activeFilterTab, setActiveFilterTab] = useState({
     logoShirt: true,
@@ -48,6 +48,11 @@ const Customizer = () => {
   //     setActiveEditorTab("");
   //   }
   // };
+
+  const handleActiveEditorTab = (tabName) => {
+    setIsModalOpen(!isModalOpen);
+    setActiveEditorTab(tabName);
+  };
 
   const handleDecals = (type, result) => {
     const decalType = DecalTypes[type];
@@ -94,9 +99,11 @@ const Customizer = () => {
   const generateTabContent = () => {
     switch (activeEditorTab) {
       case "colorpicker":
-        return <ColorPicker />;
+        return isModalOpen ? <ColorPicker /> : null;
       case "filepicker":
-        return <FilePicker file={file} setFile={setFile} readFile={readFile} />;
+        return isModalOpen ? (
+          <FilePicker file={file} setFile={setFile} readFile={readFile} />
+        ) : null;
       // case "aipicker":
       //   return (
       //     <AIPicker
@@ -126,7 +133,7 @@ const Customizer = () => {
                   <Tab
                     key={tab.name}
                     tab={tab}
-                    handleClick={() => setActiveEditorTab(tab.name)}
+                    handleClick={() => handleActiveEditorTab(tab.name)}
                   />
                 ))}
 
